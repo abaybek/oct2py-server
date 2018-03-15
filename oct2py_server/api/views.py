@@ -16,11 +16,24 @@ class ExampleAPIView(APIView):
 	"""
 	List all snippets, or create a new snippet.
 	"""
+	def get_file_info(self, obj):
+		response = {}
+		response['name'] = obj.name
+		response['path'] = obj.upload.name
+		response['description'] = obj.description
+		response['input_number'] = obj.input_number
+		return response
+
 	def get_all_files(self):
 		objs = OctaveCode.objects.all()
-		return [obj.name for obj in objs]
+		return [self.get_file_info(obj) for obj in objs]
 
 	def get_filename(self, fname):
+		obj = OctaveCode.objects.get(name=fname)
+		info = self.get_file_info(obj)
+		return info
+
+	def get_real_filename(self, fname):
 		obj = OctaveCode.objects.get(name=fname)
 		return obj.upload.name
 
@@ -33,7 +46,6 @@ class ExampleAPIView(APIView):
 
 	def get(self, request, fname='all', format=None):
 		filename = None
-		print(fname)
 		if fname == 'all':
 			filename = self.get_all_files()
 		else:
@@ -42,7 +54,7 @@ class ExampleAPIView(APIView):
 		return Response(filename)
 
 	def post(self, request, fname='all', format=None):
-		fname = self.get_filename(fname)
+		fname = self.get_real_filename(fname)
 
 		res = {}
 
