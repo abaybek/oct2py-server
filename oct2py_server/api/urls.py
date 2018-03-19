@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import ExampleAPIView
+from .views import ExampleAPIView, MainAppView
 
 urlpatterns = [
-    url(r'^(?P<fname>[-\w]+)/', ExampleAPIView.as_view()),
-	url(r'^', ExampleAPIView.as_view()),
+    url(r'^api/(?P<fname>[-\w]+)/', ExampleAPIView.as_view()),
+	url(r'^api/', ExampleAPIView.as_view()),
+	url(r'^', MainAppView.as_view())
 ]
 
 from rest_framework.urlpatterns import format_suffix_patterns

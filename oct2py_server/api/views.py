@@ -72,3 +72,13 @@ class ExampleAPIView(APIView):
 		out = oc.feval(fname, *lst)
 		res['result'] = out
 		return Response(res)
+
+
+
+"""
+ This views are the main page 
+"""
+from django.views.generic.base import TemplateView
+
+class MainAppView(TemplateView):
+    template_name = "api/app.html"
