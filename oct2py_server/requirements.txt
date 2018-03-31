@@ -1,5 +1,11 @@
 django==1.11
 djangorestframework==3.7.7
+djangorestframework-jwt==1.11.0
 oct2py==4.0.6
 scipy==1.0.0
 numpy==1.14.2
+pillow==5.0.0
+celery==4.1
+redis==2.10.6
+django-celery-results==1.0.1
+sqlalchemy==1.2.5

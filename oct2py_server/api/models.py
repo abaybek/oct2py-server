@@ -12,3 +12,14 @@ class OctaveCode(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class OctaveImage(OctaveCode):
+	"""
+	 Class for image plotting,
+	 get input variabels and run script that is used
+	 to get image.
+	"""
+	
+	def __str__(self):
+		return self.name + ' : ' + 'IMAGE PLOT'
+		

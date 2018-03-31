@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from django.core.files import File
+from django.http import HttpResponse
+# HttpResponce
+
 
 # Create your views here.
 from rest_framework.views import APIView
@@ -7,10 +11,15 @@ from rest_framework import status
 
 import json
 from oct2py import octave as oc
+import oct2py
 oc.addpath('./api/octave_apps/')
 
 
 from .models import OctaveCode
+
+
+from PIL import Image
+import base64
 
 class ExampleAPIView(APIView):
 	"""
@@ -53,6 +62,26 @@ class ExampleAPIView(APIView):
 
 		return Response(filename)
 
+	def get_images(self):
+		mypath = './api/octave_apps/images/'
+		from os import listdir
+		from os.path import isfile, join
+		onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+		return onlyfiles
+
+	def get_base64_image(self, path):
+		f = open(path, 'rb')
+		image = File(f)
+		data = base64.b64encode(image.read())
+		f.close()
+		return data
+
+	def get_image_from_server(self, file):
+		image = Image.open(file)
+		response = HttpResponse(content_type='image/png')
+		image.save(response, 'PNG')
+		return response
+
 	def post(self, request, fname='all', format=None):
 		fname = self.get_real_filename(fname)
 
@@ -68,9 +97,23 @@ class ExampleAPIView(APIView):
 			lst.append(int(d[v]))
 
 		lst = tuple(lst)
+		
+		out = None
 
-		out = oc.feval(fname, *lst)
+		try:
+			out = oc.feval(fname, *lst, plot_dir='./api/octave_apps/images/', timeout=3)
+		except oct2py.Oct2PyError:
+			print('Octave Error happened')
+
 		res['result'] = out
+		# for index, file in enumerate(self.get_images()):
+		# 	res['file' + str(index)]  = self.get_base64_image('./api/octave_apps/images/' + str(file))
+
+		isImage = 1
+		if isImage:
+			file = self.get_images()[0]
+			return self.get_image_from_server('./api/octave_apps/images/' + str(file))
+
 		return Response(res)
 
 

@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'rest_framework',
-    'api'
+
+    'api',
+    'scripts'
 ]
 
 MIDDLEWARE = [
@@ -124,6 +127,31 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL  = '/media/'
+
+
+# Celery settings
+# 
+
+# CELERY_BROKER_URL        = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
+CELERY_BROKER_URL        = os.environ['CELERY_BROKER_URL']
+CELERY_RESULT_BACKEND    = os.environ['CELERY_RESULT_BACKEND']
+# CELERY_RESULT_BACKEND    = 'db+sqlite:///db.sqlite3'
+# CELERY_RESULT_BACKEND    = 'redis://redis:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
