@@ -1,0 +1,30 @@
+{
+  "name": "octave-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "history": "^4.7.2",
+    "jquery": "^3.3.1",
+    "jwt-decode": "^2.2.0",
+    "popper": "^1.0.1",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-redux": "^5.0.7",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "react-scripts": "1.1.1",
+    "react-transition-group": "^2.3.0",
+    "reactstrap": "^5.0.0",
+    "redux": "^3.7.2",
+    "redux-api-middleware": "^2.3.0",
+    "redux-persist": "^5.9.1",
+    "redux-persist-transform-filter": "^0.0.16"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:8000/"
+}
