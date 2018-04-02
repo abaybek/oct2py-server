@@ -8,6 +8,8 @@ from numpy import random
 
 from scripts.models import ScriptCode
 
+from django.conf import settings
+
 @shared_task
 def fft_random(n):
     """
@@ -29,6 +31,20 @@ def add(x,y):
     return x+y
 
 from oct2py import Oct2Py, Oct2PyError
+import glob
+SCRIPT_TIME = getattr(settings, 'CELERY_OCTAVE_RUNNING_SCRIPT_TIME', '')
+
+
+def get_name_if_image_exist(user_folder, task_name):
+	name = glob.glob(user_folder + task_name + '*.png')
+	print(name)
+	return name
+
+def cut_name_image(img_arr):
+	res = []
+	for img in img_arr:
+		res.append(img.replace('/oct2py_server', ''))
+	return res
 
 @shared_task
 def run_octave_script(pk, inp):
@@ -37,18 +53,21 @@ def run_octave_script(pk, inp):
 	images = None
 	obj = ScriptCode.objects.get(pk=pk)
 	user_folder = obj.get_user_folder()
+	user_images_folder = user_folder + 'images/'
 	
 	result = {}
 
+	# Run octave virtual env
+	# addpath and run script
 	with Oct2Py() as oc:
 		oc.addpath(user_folder)
 		try:
 			out = oc.feval(obj.get_file_name(),
 				          *tuple(list(inp)), 
-				          plot_dir=user_folder + '/images/', 
-				          plot_name=str(task_id),
-				          timeout=3,
-				          nout=obj.output_number)
+				          plot_dir	=	user_images_folder, 
+				          plot_name	=	task_id,
+				          timeout	=	SCRIPT_TIME,
+				          nout		=	obj.output_number)
 			# images = oc.extract_figures(user_folder + '/images/')
 		except Oct2PyError as exc:
 			print('Octave Error happened')
@@ -61,6 +80,15 @@ def run_octave_script(pk, inp):
 		else:
 			result['state'] = 'SUCCESS'
 			result['message'] = out
+	
+	# Check if any image is generated and if is
+	# add to the image_path so front can load it
+	img_names = get_name_if_image_exist(user_images_folder, task_id)
+	if img_names:
+		result['image_exist'] = 1
+		result['image_path'] = cut_name_image(img_names)
+	else:
+		result['image_exist'] = 0
 	return result
 
 

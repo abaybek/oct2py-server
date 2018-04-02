@@ -48,12 +48,12 @@ class ScriptCodeRUDView(generics.RetrieveDestroyAPIView):
 	def post(self, request, pk, format=None):
 		# Get list of variables
 
-		# inp = None
-		# if request.data['ivals']:
-		# 	inp = request.data['ivals']
+		inp = None
+		if request.data['ivals']:
+			inp = request.data['ivals']
 
-		# job = run_octave_script.delay(pk, inp)
-		job =fft_random.delay(100000)
+		job = run_octave_script.delay(pk, inp)
+		# job =fft_random.delay(100000)
 		return Response(job.id, status=status.HTTP_200_OK)
 
 

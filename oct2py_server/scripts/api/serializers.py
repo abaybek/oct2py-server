@@ -14,7 +14,9 @@ class ScriptCodeSerializer(serializers.ModelSerializer):
 			'description',
 			'timestamp',
 			'file_url',
-			'user_folder'
+			'user_folder',
+			'input_number',
+			'output_number'
 		]
 		read_only_fields = ['id', 'user']
 
