@@ -33,9 +33,6 @@ export function errors(state) {
 export default (state = initialState, action) => {
   switch (action.type) {
     case auth.LOGIN_SUCCESS:
-      console.log('LOGIN_SUCCESS');
-      console.log(state);
-      console.log(action);
       return {
         token: {
           token: action.payload.token,

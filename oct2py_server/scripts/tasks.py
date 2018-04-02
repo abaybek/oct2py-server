@@ -61,7 +61,6 @@ def run_octave_script(pk, inp):
 		else:
 			result['state'] = 'SUCCESS'
 			result['message'] = out
-
 	return result
 
 

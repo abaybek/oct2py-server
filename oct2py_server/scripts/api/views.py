@@ -15,8 +15,6 @@ from scripts.tasks import fft_random, run_octave_script
 
 from celery.result import AsyncResult
 
-
-
 class ScriptCodeAPIView(generics.ListAPIView):
 	lookup_field 		 = 'pk'
 	authentication_class = (JSONWebTokenAuthentication, )
