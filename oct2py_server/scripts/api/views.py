@@ -5,6 +5,8 @@ from rest_framework import generics, mixins, views
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from scripts.models import ScriptCode
 from .serializers import ScriptCodeSerializer
 from .permissions import IsOwnerOrReadOnly, IsOwner
@@ -16,8 +18,9 @@ from celery.result import AsyncResult
 
 
 class ScriptCodeAPIView(generics.ListAPIView):
-	lookup_field = 'pk'
-	serializer_class = ScriptCodeSerializer
+	lookup_field 		 = 'pk'
+	authentication_class = (JSONWebTokenAuthentication, )
+	serializer_class 	 = ScriptCodeSerializer
 
 	def get_queryset(self):
 		qs = ScriptCode.objects.all()
@@ -36,9 +39,10 @@ class ScriptCodeAPIView(generics.ListAPIView):
 
 
 class ScriptCodeRUDView(generics.RetrieveDestroyAPIView):
-	lookup_field = 'pk'
-	serializer_class = ScriptCodeSerializer
-	permission_classes = (IsOwner, )
+	lookup_field 		 = 'pk'
+	authentication_class = (JSONWebTokenAuthentication, )
+	serializer_class 	 = ScriptCodeSerializer
+	permission_classes 	 = (IsOwner, )
 
 	def get_queryset(self):
 		return ScriptCode.objects.all()

@@ -18,11 +18,21 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework.schemas import get_schema_view
+
+rest_api_urls = [
+    url(r'^$', get_schema_view()),
+    url(r'^auth/token/obtain/$', obtain_jwt_token),
+    url(r'^auth/token/refresh/$', refresh_jwt_token),
+    url(r'^scripts/', include('scripts.api.urls', namespace='api-scripts')),
+]
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/scripts/', include('scripts.api.urls', namespace='api-scripts')),
+    url(r'^api/v1/', include(rest_api_urls, namespace='rest-api')),
     url(r'^', include('scripts.urls', namespace='api')),
-]
+]    
 
 if settings.DEBUG:
 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

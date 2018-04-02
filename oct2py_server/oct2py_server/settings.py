@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100
@@ -144,7 +144,7 @@ MEDIA_URL  = '/media/'
 
 
 # Celery settings
-# 
+#
 
 # CELERY_BROKER_URL        = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
 CELERY_BROKER_URL        = os.environ['CELERY_BROKER_URL']

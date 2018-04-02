@@ -1,6 +1,7 @@
 django==1.11
 djangorestframework==3.7.7
 djangorestframework-jwt==1.11.0
+coreapi==2.3.3
 oct2py==4.0.6
 scipy==1.0.0
 numpy==1.14.2
