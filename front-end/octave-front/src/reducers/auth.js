@@ -7,13 +7,13 @@ const initialState = {
 }
 
 export function accessToken(state) {
-  if (state.access) {
-      return  state.token
+  if (state.token) {
+      return  state.token.token
   }
 }
 
 export function refreshToken(state) {
-  if (state.refresh) {
+  if (state.token) {
       return  state.token
   }
 }
