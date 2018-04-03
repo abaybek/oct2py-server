@@ -32,7 +32,7 @@ def add(x,y):
 
 from oct2py import Oct2Py, Oct2PyError
 import glob
-SCRIPT_TIME = getattr(settings, 'CELERY_OCTAVE_RUNNING_SCRIPT_TIME', '')
+SCRIPT_TIME = getattr(settings, 'CELERY_OCTAVE_RUNNING_SCRIPT_TIME', 3)
 
 
 def get_name_if_image_exist(user_folder, task_name):
