@@ -9,5 +9,8 @@ from django.shortcuts import render
 """
 from django.views.generic.base import TemplateView
 
+# class MainAppView(TemplateView):
+#     template_name = "scripts/app.html"
+
 class MainAppView(TemplateView):
-    template_name = "scripts/app.html"
+    template_name = "build/index.html"

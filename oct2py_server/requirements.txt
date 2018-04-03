@@ -10,3 +10,6 @@ celery==4.1
 redis==2.10.6
 django-celery-results==1.0.1
 sqlalchemy==1.2.5
+
+# server packages
+gunicorn==19.7.0

@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-MAINTAINER <bekbaganbetov.abay@gmail.com>
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
