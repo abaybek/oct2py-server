@@ -8,7 +8,8 @@ import rootReducer from './reducers';
 
 export default (history) => {
   const persistedFilter = createFilter(
-    'auth', ['token']);
+    'auth', ['token']
+  );
   const reducer = persistReducer(
     {
       key: 'polls',
@@ -16,9 +17,10 @@ export default (history) => {
       whitelist: ['auth'],
       transforms: [persistedFilter]
     },
-    rootReducer)
+    rootReducer
+  )
   const store = createStore(
-    reducer, {},
+    reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(
       apiMiddleware, 
       routerMiddleware(history))

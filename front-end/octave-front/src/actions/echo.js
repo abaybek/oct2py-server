@@ -4,7 +4,7 @@ export const ECHO_REQUEST = '@@echo/ECHO_REQUEST';
 export const ECHO_SUCCESS = '@@echo/ECHO_SUCCESS';
 export const ECHO_FAILURE = '@@echo/ECHO_FAILURE';
 
-export const echo = (message) => ({
+export const echo = () => ({
   [RSAA]: {
       endpoint: '/api/v1/scripts/',
       method: 'GET',
