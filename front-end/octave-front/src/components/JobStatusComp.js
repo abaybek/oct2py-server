@@ -9,7 +9,7 @@ const JobStatusComp = (props) => {
         <Card className="mt-5 mb-3">
             <CardBody>
             <CardTitle>Job status</CardTitle>
-            <CardText>some uddp number</CardText>
+            <CardText>{props.workResults.state}</CardText>
             </CardBody>
         </Card>
         </div>

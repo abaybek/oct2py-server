@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,6 +126,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# Rest Framework settings
+# 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -138,6 +141,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=120), # Token expires * minutes after being issued
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(minutes=5), # Token can be refreshed up to * minutes after being issued
+}
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL  = '/media/'
 
@@ -145,11 +154,8 @@ MEDIA_URL  = '/media/'
 # Celery settings
 #
 
-# CELERY_BROKER_URL        = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
 CELERY_BROKER_URL        = os.environ['CELERY_BROKER_URL']
 CELERY_RESULT_BACKEND    = os.environ['CELERY_RESULT_BACKEND']
-# CELERY_RESULT_BACKEND    = 'db+sqlite:///db.sqlite3'
-# CELERY_RESULT_BACKEND    = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

@@ -9,7 +9,8 @@ const ResultComp = (props) => {
         <Card className="mt-5 mb-3">
             <CardBody>
             <CardTitle>Job result</CardTitle>
-            <CardText>result number is 4</CardText>
+            <CardText>Job ID: {props.onSelectedWorkId} <br/>
+                     Job Result: {props.workResults.message}</CardText>
             </CardBody>
         </Card>
         </div>

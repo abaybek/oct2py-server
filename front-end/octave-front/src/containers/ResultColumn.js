@@ -7,9 +7,9 @@ export default class ResultColumn extends React.Component {
     render(){
         return(
         <div>
-            <JobStatusComp />
-            <ResultComp />
-            <ResultImage />
+            <JobStatusComp workResults={this.props.workResults}/>
+            <ResultComp onSelectedWorkId={this.props.onSelectedWorkId} workResults={this.props.workResults}/>
+            <ResultImage workResults={this.props.workResults}/>
         </div>)
     }
 }

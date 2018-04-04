@@ -8,7 +8,7 @@ export default class InfoColumn extends React.Component {
         return(
         <div>
             <DescriptionComp selectedScript={this.props.selectedScript}/>
-            <InputComp></InputComp>
+            <InputComp selectedScript={this.props.selectedScript} fetchWork={this.props.fetchWork}></InputComp>
         </div>)
     }
 }
