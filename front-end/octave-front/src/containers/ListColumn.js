@@ -25,8 +25,8 @@ class ListColumn extends React.Component {
       return (
         <div>
           <br />
-          <h3>Anchors </h3>
-          <p>Be sure to <strong>not use the standard <code>.btn</code> classes here</strong>.</p>
+          <h3>Scripts </h3>
+          <p>Be sure to <strong>Don’t underestimate the  <code>Force</code> here</strong>.</p>
           <ListGroup>
             {this.createListGroupItem()}
           </ListGroup>

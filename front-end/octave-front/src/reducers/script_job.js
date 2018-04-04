@@ -17,9 +17,9 @@ function script_jobD(state=initialState, action){
             return {
                 work_id: action.payload.task_id,
                 state: action.payload.job_state,
-                message: action.payload.job_result.message,
-                image_exist: action.payload.job_result.image_exist,
-                image_path: action.payload.job_result.image_path
+                message: action.payload.job_result.message || "",
+                image_exist: action.payload.job_result.image_exist || "",
+                image_path: action.payload.job_result.image_path || ""
             }
         }else {
             return {

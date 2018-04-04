@@ -33,8 +33,13 @@ class InputComp extends React.Component {
     console.log(this.props.selectedScript)
     console.log(this.state.ivals)
     const _id = this.props.selectedScript.id;
+    let ivals = []
+    let idict = this.state.ivals;
+    for(let k in idict){
+      ivals.push(idict[k])
+    }
 
-    this.props.fetchWork(_id, [1,2])
+    this.props.fetchWork(_id, ivals)
   }
 
   render(){
