@@ -40,6 +40,10 @@ def get_name_if_image_exist(user_folder, task_name):
 	print(name)
 	return name
 
+def get_animation_if_exist(user_folder):
+	name = glob.glob(user_folder + 'animation.gif')
+	return name
+
 def cut_name_image(img_arr):
 	res = []
 	for img in img_arr:
@@ -61,6 +65,7 @@ def run_octave_script(pk, inp):
 	# addpath and run script
 	with Oct2Py() as oc:
 		oc.addpath(user_folder)
+		oc.eval("cd " + user_folder)
 		try:
 			out = oc.feval(obj.get_file_name(),
 				          *tuple(list(inp)), 
@@ -84,11 +89,15 @@ def run_octave_script(pk, inp):
 	# Check if any image is generated and if is
 	# add to the image_path so front can load it
 	img_names = get_name_if_image_exist(user_images_folder, task_id)
+	gif 	  = get_animation_if_exist(user_folder)
 	if img_names:
 		result['image_exist'] = 1
 		result['image_path'] = cut_name_image(img_names)
 	else:
 		result['image_exist'] = 0
+	
+	if gif:
+		result['gif'] = cut_name_image(gif)
 	return result
 
 

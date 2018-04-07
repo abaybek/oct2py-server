@@ -5,7 +5,8 @@ const initialState = {
   state: '',
   message: '',
   image_exist: '',
-  image_path: ''
+  image_path: '',
+  gif       : ''
 }
 
 function script_jobD(state=initialState, action){
@@ -19,7 +20,8 @@ function script_jobD(state=initialState, action){
                 state: action.payload.job_state,
                 message: action.payload.job_result.message || "",
                 image_exist: action.payload.job_result.image_exist || "",
-                image_path: action.payload.job_result.image_path || ""
+                image_path: action.payload.job_result.image_path || "",
+                gif: action.payload.job_result.gif || "",
             }
         }else {
             return {
@@ -27,7 +29,8 @@ function script_jobD(state=initialState, action){
                 state: action.payload.job_state,
                 message: '',
                 image_exist: '',
-                image_path: ''
+                image_path: '',
+                gif: ''
             }
         }
       case script_job.SCRIPTJOB_CLEANING:
@@ -36,7 +39,8 @@ function script_jobD(state=initialState, action){
             state: '',
             message: '',
             image_exist: '',
-            image_path: ''
+            image_path: '',
+            gif : '',
         }
       default:
         return state

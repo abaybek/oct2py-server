@@ -31,8 +31,8 @@ rest_api_urls = [
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/', include(rest_api_urls, namespace='rest-api')),
-    url(r'^', include('scripts.urls', namespace='api')),
-]    
+    url(r'^(?P<path>.*)', include('scripts.urls', namespace='front-end')),
+]
 
 if settings.DEBUG:
 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
