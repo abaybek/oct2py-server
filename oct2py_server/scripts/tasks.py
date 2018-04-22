@@ -50,7 +50,7 @@ def cut_name_image(img_arr):
 		res.append(img.replace('/oct2py_server', ''))
 	return res
 
-@shared_task
+@shared_task(time_limit=10)
 def run_octave_script(pk, inp):
 	task_id = str(run_octave_script.request.id)
 	out = None
