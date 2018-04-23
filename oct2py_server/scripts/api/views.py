@@ -11,7 +11,7 @@ from scripts.models import ScriptCode
 from .serializers import ScriptCodeSerializer
 from .permissions import IsOwnerOrReadOnly, IsOwner
 
-from scripts.tasks import fft_random, run_octave_script
+from scripts.tasks import fft_random, run_octave_script, run_octave_source
 
 from celery.result import AsyncResult
 
@@ -45,14 +45,21 @@ class ScriptCodeRUDView(generics.RetrieveDestroyAPIView):
 	def get_queryset(self):
 		return ScriptCode.objects.all()
 
-	def post(self, request, pk, format=None):
+	def post(self, request, pk=None, format=None):
 		# Get list of variables
-
-		inp = None
-		if request.data['ivals']:
-			inp = request.data['ivals']
-
-		job = run_octave_script.delay(pk, inp)
+		job = None	
+		
+		inp = request.data.get('ivals', None)
+		source_code = request.data.get('source', None)
+		print(request.data['source'])
+		if inp:
+			job = run_octave_script.delay(pk, inp)
+		elif source_code:
+			print('View get source code')
+			print(source_code)
+			source_code=source_code.lstrip("'").lstrip('"')
+			job = run_octave_source.delay(source_code)
+		
 		# job =fft_random.delay(100000)
 		return Response(job.id, status=status.HTTP_200_OK)
 

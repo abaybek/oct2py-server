@@ -3,8 +3,8 @@ version: '2.0'
 services:
   web:
     build: .
-    # command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn --bind 0.0.0.0:8000 -w 4 oct2py_server.wsgi
+    command: python manage.py runserver 0.0.0.0:8000
+    # command: gunicorn --bind 0.0.0.0:8000 -w 4 oct2py_server.wsgi
     volumes:
       - ./oct2py_server:/oct2py_server
     environment:
@@ -50,16 +50,16 @@ services:
       - rabbit
       - redis
   
-  nginx:
-    image: nginx:latest
-    ports:
-    - "80:80"
-    volumes:
-      - ./oct2py_server:/oct2py_server
-      - ./front-end/octave-front/build:/var/www
-      - ./containers/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - web
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #   - "80:80"
+  #   volumes:
+  #     - ./oct2py_server:/oct2py_server
+  #     - ./front-end/octave-front/build:/var/www
+  #     - ./containers/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #   depends_on:
+  #     - web
 
 
 volumes:
