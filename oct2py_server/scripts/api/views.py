@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from rest_framework import generics, mixins, views
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework import permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from scripts.models import ScriptCode
@@ -47,19 +47,17 @@ class ScriptCodeRUDView(generics.RetrieveDestroyAPIView):
 
 	def post(self, request, pk=None, format=None):
 		# Get list of variables
-		job = None	
-		
+		job = None
+
 		inp = request.data.get('ivals', None)
 		source_code = request.data.get('source', None)
-		print(request.data['source'])
+		
 		if inp:
 			job = run_octave_script.delay(pk, inp)
 		elif source_code:
-			print('View get source code')
-			print(source_code)
 			source_code=source_code.lstrip("'").lstrip('"')
 			job = run_octave_source.delay(source_code)
-		
+
 		# job =fft_random.delay(100000)
 		return Response(job.id, status=status.HTTP_200_OK)
 
@@ -70,7 +68,7 @@ class ScriptResultAPIView(views.APIView):
 		if 'job' in request.GET:
 			job_id = request.GET['job']
 			job = AsyncResult(job_id)
-			
+
 			context = {
 				'job_result':job.result,
 				'job_state' : job.state,
@@ -79,3 +77,25 @@ class ScriptResultAPIView(views.APIView):
 			return Response(context, status=status.HTTP_200_OK)
 		else:
 			return Response(status=status.HTTP_200_OK)
+
+
+# class ScriptRunCodeAPIView(views.APIView):
+# 	authentication_class = (JSONWebTokenAuthentication, )
+#     def post(self, request, format=None):
+#         code = request.data.get('code')
+#         return code
+#         # code = request.data.get('code')
+#         # print(code)
+#         # return Response(code, status=HTTP_200_OK)
+
+class ScriptRunCodeAPIView(views.APIView):
+    authentication_class = (JSONWebTokenAuthentication, )
+    permission_classes = (permissions.AllowAny, )
+    
+    def post(self, request, format=None):
+        user = request.user
+        code = request.data.get('code')
+        if code:
+            job = run_octave_source.delay(code)
+        
+        return Response(job.id, status=status.HTTP_200_OK)
