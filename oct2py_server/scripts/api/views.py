@@ -97,5 +97,5 @@ class ScriptRunCodeAPIView(views.APIView):
         code = request.data.get('code')
         if code:
             job = run_octave_source.delay(code)
-        
-        return Response(job.id, status=status.HTTP_200_OK)
+            return Response(job.id, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -103,23 +103,33 @@ def run_octave_script(pk, inp):
 
 @shared_task(time_limit=20)
 def run_octave_source(source_code):
+	result = {}
+	console_output = []
+
 	print('run_octave script get source code')
 	print(source_code)
 	
 	octave_session = Oct2Py()
-
+	out = None
 	try:
-		octave_session.eval(source_code)
+		out = octave_session.eval(source_code, stream_handler=console_output.append)
 	except Oct2PyError as exc:
 		print('Octave Error Happened')
 		print(exc)
+		result['state'] = 'FAILURE'
+		result['message'] = 'Octave Error'
 	except TypeError as exc:
 		print('Type Error Happened')
 		print(exc)
+		result['state'] = 'FAILURE'
+		result['message'] = 'Type Error'
+	else:
+		result['state'] = 'SUCCESS'
+		result['message'] = out
 	
 	octave_session.exit()
-	
-	return {"done": True}
+	result['console_output'] = console_output
+	return result
 
 
 @shared_task
