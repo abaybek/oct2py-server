@@ -63,9 +63,9 @@ class ScriptCodeRUDView(generics.RetrieveDestroyAPIView):
 
 
 class ScriptResultAPIView(views.APIView):
-    authentication_class = (JSONWebTokenAuthentication, )
-    permission_classes = (permissions.AllowAny, )
-
+	authentication_class = (JSONWebTokenAuthentication, )
+	permission_classes = (permissions.AllowAny, )
+	
 	def get(self, request, format=None):
 		if 'job' in request.GET:
 			job_id = request.GET['job']
